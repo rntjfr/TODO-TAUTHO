@@ -25,13 +25,29 @@ document.addEventListener('DOMContentLoaded', () => {
         const removeButton = document.createElement('button');
         removeButton.textContent = 'Remove';
         removeButton.className = 'remove-button';
-        removeButton.onclick = function () {
-            taskList.removeChild(li);
-            // If removing the current edit task, reset edit mode
-            if (currentEditTask === taskSpan) {
-                taskInput.value = '';
-                addTaskButton.textContent = 'Add Task';
-                currentEditTask = null;
+        removeButton.onclick = async function () {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            });
+            if (result.isConfirmed) {
+                taskList.removeChild(li);
+                // If removing the current edit task, reset edit mode
+                if (currentEditTask === taskSpan) {
+                    taskInput.value = '';
+                    addTaskButton.textContent = 'Add Task';
+                    currentEditTask = null;
+                }
+                Swal.fire(
+                    'Deleted!',
+                    'Your task has been deleted.',
+                    'success'
+                );
             }
         };
 
@@ -42,20 +58,54 @@ document.addEventListener('DOMContentLoaded', () => {
         return li;
     }
 
-    function addTaskHandler() {
+    async function addTaskHandler() {
         const taskText = taskInput.value.trim();
         if (taskText) {
             if (currentEditTask) {
-                // Update the existing task
-                currentEditTask.textContent = taskText;
-                taskInput.value = '';
-                addTaskButton.textContent = 'Add Task';
-                currentEditTask = null; // Reset the current edit task
+                // Confirm update action
+                const result = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to update this task?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, update it!'
+                });
+                if (result.isConfirmed) {
+                    // Update the existing task
+                    currentEditTask.textContent = taskText;
+                    taskInput.value = '';
+                    addTaskButton.textContent = 'Add Task';
+                    currentEditTask = null; // Reset the current edit task
+                    Swal.fire(
+                        'Updated!',
+                        'Your task has been updated.',
+                        'success'
+                    );
+                }
             } else {
-                // Add a new task
-                const taskItem = createTaskItem(taskText);
-                taskList.appendChild(taskItem);
-                taskInput.value = '';
+                // Confirm add action
+                const result = await Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You want to add this task?",
+                    icon: 'question',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, add it!'
+                });
+                if (result.isConfirmed) {
+                    // Add a new task
+                    const taskItem = createTaskItem(taskText);
+                    taskList.appendChild(taskItem);
+                    taskInput.value = '';
+                    Swal.fire(
+                        'Added!',
+                        'Your task has been added.',
+                        'success'
+                    );
+                }
             }
         }
     }
