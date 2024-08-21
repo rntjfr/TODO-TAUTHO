@@ -2,7 +2,7 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     margin: 0;
     padding: 0;
-    background-image: url('/bg.jpg'); /* Replace with the path to your image */
+    background-image: url('/bg3.jpg'); /* Replace with the path to your image */
     background-size: cover; /* Ensure the image covers the entire background */
     background-position: center; /* Center the image */
     background-repeat: no-repeat; /* Prevent image from repeating */
@@ -59,7 +59,7 @@ input[type="text"]:focus {
 
 button {
     padding: 12px 20px;
-    background-color: #007bff;
+    background-color: #068edd;
     color: #ffffff;
     border: none;
     border-radius: 6px;
@@ -113,12 +113,12 @@ button {
 }
 
 button.edit-button {
-    background-color: #28a745;
+    background-color: #08c596;
     color: #ffffff;
 }
 
 button.edit-button:hover {
-    background-color: #218838;
+    background-color: #03635b;
 }
 
 button.remove-button {
